@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Facts Explorer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f1629;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #7cb9e8;
+            margin-bottom: 30px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        button, select {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #7cb9e8;
+            color: #0f1629;
+        }
+
+        select {
+            background-color: white;
+        }
+
+        .fact-card {
+            background-color: rgba(124, 185, 232, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Amazing Space Facts</h1>
+        <div class="controls">
+            <button id="randomFact">Show Random Fact</button>
+            <select id="categoryFilter">
+                <option value="all">All Categories</option>
+            </select>
+        </div>
+        <div id="factDisplay" class="fact-card">
+            Click the button to see a space fact!
+        </div>
+    </div>
+
+    <script>
+        const spaceFacts = {
+            "spaceFacts": [
+                {
+                    "id": 21,
+                    "fact": "The first photograph of a black hole was released in 2019, showing M87's supermassive black hole.",
+                    "category": "Black Holes"
+                },
+                {
+                    "id": 22,
+                    "fact": "A teaspoonful of neutron star would weigh about 6 billion tons.",
+                    "category": "Stars"
+                },
+                {
+                    "id": 23,
+                    "fact": "The temperature in the Sun's core is about 15 million degrees Celsius.",
+                    "category": "Sun"
+                },
+                {
+                    "id": 24,
+                    "fact": "Pluto is smaller than the United States in surface area.",
+                    "category": "Planets"
+                },
+                {
+                    "id": 25,
+                    "fact": "There is a planet where it rains glass sideways, called HD 189733b.",
+                    "category": "Exoplanets"
+                },
+                {
+                    "id": 26,
+                    "fact": "The largest known asteroid is Ceres, with a diameter of about 940 kilometers.",
+                    "category": "Asteroids"
+                },
+                {
+                    "id": 27,
+                    "fact": "A day on Jupiter is only about 10 hours long.",
+                    "category": "Jupiter"
+                },
+                {
+                    "id": 28,
+                    "fact": "There are more than 200 billion galaxies in the observable universe.",
+                    "category": "Universe"
+                },
+                {
+                    "id": 29,
+                    "fact": "The Moon is moving away from Earth at a rate of about 3.8 centimeters per year.",
+                    "category": "Moon"
+                },
+                {
+                    "id": 30,
+                    "fact": "The largest crater in the solar system is Utopia Planitia on Mars, measuring 3,300 km in diameter.",
+                    "category": "Mars"
+                }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const randomFactBtn = document.getElementById('randomFact');
+            const factDisplay = document.getElementById('factDisplay');
+            const categoryFilter = document.getElementById('categoryFilter');
+            
+            // Populate categories
+            const categories = [...new Set(spaceFacts.spaceFacts.map(fact => fact.category))];
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+
+            // Show random fact
+            function showRandomFact() {
+                const selectedCategory = categoryFilter.value;
+                let filteredFacts = spaceFacts.spaceFacts;
+                
+                if (selectedCategory !== 'all') {
+                    filteredFacts = spaceFacts.spaceFacts.filter(fact => 
+                        fact.category === selectedCategory
+                    );
+                }
+
+                const randomFact = filteredFacts[Math.floor(Math.random() * filteredFacts.length)];
+                factDisplay.innerHTML = `
+                    <p>${randomFact.fact}</p>
+                    <small>Category: ${randomFact.category}</small>
+                `;
+            }
+
+            randomFactBtn.addEventListener('click', showRandomFact);
+            categoryFilter.addEventListener('change', showRandomFact);
+        });
+    </script>
+</body>
+</html>
